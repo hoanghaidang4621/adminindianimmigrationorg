@@ -1,0 +1,150 @@
+<script>
+    $( document ).ready(function() {
+        $('#txtName').on('input', function () {
+            var str = $(this).val();
+            var str_slug = slugify(str);
+            $('#txtKeyword').val(str_slug);
+        });
+        $('form[name=service-form]').submit(function(event) {
+            var valid = true;
+
+            if ($('input[name=txtName]').val() == '') {
+                $('.msg-name').text('Name field is required.');
+                $('#txtName').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-name').text('');
+                $('#txtName').removeClass("border-red");
+            }            
+            if ($('input[name=txtListedPrice]').val() == '') {
+                $('.msg-listed-price').text('Listed Price field is required.');
+                $('#txtListedPrice').addClass("border-red");
+                valid = false;
+            } else if (isNaN($('input[name=txtListedPrice]').val())) {
+                $('.msg-listed-price').text('Enter a valid Listed Price.');
+                $('#txtListedPrice').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-listed-price').text('');
+                $('#txtListedPrice').removeClass("border-red");
+            }
+            if ($('input[name=txtPrice]').val() == '') {
+                $('.msg-price').text('Price field is required.');
+                $('#txtPrice').addClass("border-red");
+                valid = false;
+            } else if (isNaN($('input[name=txtPrice]').val())) {
+                $('.msg-price').text('Enter a valid Price.');
+                $('#txtPrice').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-price').text('');
+                $('#txtPrice').removeClass("border-red");
+            }
+            if ($('input[name=txtOrder]').val() == '') {
+                $('.msg-order').text('Order field is required.');
+                $('#txtOrder').addClass("border-red");
+                valid = false;
+            } else if (isNaN($('input[name=txtOrder]').val())) {
+                $('.msg-order').text('Enter a valid Order.');
+                $('#txtOrder').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-order').text('');
+                $('#txtOrder').removeClass("border-red");
+            }
+            if( ! valid ) event.preventDefault();
+            if( valid ) {
+                $('button[name=submit]').prop('disabled', true);
+            }
+        });
+    });
+
+</script>
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="type-title">Extra Service</h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 class="form_title">Form <?= ucwords($formData['mode']) ?></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <form name="service-form" id="device-form" data-parsley-validate class="form-horizontal form-label-left" method="post">
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Name <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input maxlength="255" value="<?php echo isset($formData["service_name"]) ? $formData["service_name"] : "" ?>"
+                                       type="text" id="txtName" name="txtName"   class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["service_name"])) ? $messages["status"] : ""; ?>">
+                                <span class="text-danger msg-name"><?php echo isset($messages["service_name"]) ? $messages["service_name"] : "";?></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Listed Price <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input maxlength="10" value="<?php echo isset($formData["service_listed_price"]) ? $formData["service_listed_price"] : "" ?>" type="text" id="txtListedPrice" name="txtListedPrice"  class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["service_listed_price"])) ? $messages["status"] : ""; ?>">
+                                <span class="text-danger msg-listed-price"><?php echo isset($messages["service_listed_price"]) ? $messages["service_listed_price"] : "";?></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Price <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input maxlength="10" value="<?php echo isset($formData["service_price"]) ? $formData["service_price"] : "" ?>" type="text" id="txtPrice" name="txtPrice"  class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["service_price"])) ? $messages["status"] : ""; ?>">
+                                <span class="text-danger msg-price"><?php echo isset($messages["service_price"]) ? $messages["service_price"] : "";?></span>
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Discount </label>
+                        <div class="col-md-3 col-sm-3 col-xs-6">
+                            <input maxlength="10" value="<?php echo isset($formData["service_discount"]) ? $formData["service_discount"] : "" ?>" type="text" id="txtDiscount" name="txtDiscount"  class="form-control col-md-7 col-xs-12 ">
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-6">
+                            Ex: 321,322=30 (321 and 322: id, 30: discount)
+                        </div>
+                    </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Order <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input maxlength="10" value="<?php echo isset($formData["service_order"]) ? $formData["service_order"] : "" ?>" type="text" id="txtOrder" name="txtOrder"  class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["service_order"])) ? $messages["status"] : ""; ?>">
+                                <span class="text-danger msg-order"><?php echo isset($messages["service_order"]) ? $messages["service_order"] : "";?></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Active </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-check">
+                                <label class="container_radio"><input type="radio" name="radActive" value="Y" <?php echo (isset($formData["service_active"]) && $formData["service_active"]=="Y" )  ? "checked" : '' ; ?>>Yes<span class="checkmark"></span></label>
+                                <label class="container_radio"><input type="radio" name="radActive" value="N" <?php echo (isset($formData["service_active"]) && $formData["service_active"]=="N" )  ? "checked" : '' ; ?>>No<span class="checkmark"></span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Description </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <textarea style="height: 212px" rows="2" id="txtDescription" name="txtDescription"
+                                          class="form-control col-md-7 col-xs-12"
+                                          type="text"><?php echo isset($formData["service_description"]) ? $formData["service_description"] : "" ?></textarea>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <button name="submit" type="submit" class="btn btn-success">Save change</button>
+                                <a class="btn btn-primary" href="/extraservice">Cancel</a>
+                            </div>
+                        </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="type-title">Fast Track Fee</h3>
+    </div>
+</div>
+<?php if (isset($msg_result['status'])) { ?>
+    <div class="clearfix"></div>
+    <div class="alert alert-<?php echo $msg_result['status'] ?> alert-dismissible fade in" role="alert">
+        <?php echo $msg_result['msg']; ?>
+    </div>
+<?php } ?>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <ul class="nav nav-pills" role="tablist">
+                <?php
+                /**
+                 * @var \Indianimmigrationorg\Models\VisaPort $port
+                 * * @var \Indianimmigrationorg\Models\VisaGroupApplicant $group_appllicant
+                 */
+                foreach ( $list_port as $port ){
+                    $active = $port->getPortId() == $port_id?"active":"";
+                    ?>
+                    <li role="presentation" class="<?= $active; ?>">
+                        <a href="#<?= $port->getPortId() ?>port"
+                           aria-controls="<?= $port->getPortId() ?>port"
+                           role="tab"
+                           data-toggle="tab"><?= $port->getPortName() ?></a>
+                    </li>
+                <?php } ?>
+            </ul>
+            <div class="tab-content">
+                <?php foreach ( $list_port as $port ){
+                    $active = $port->getPortId()== $port_id?"active":"";
+                    ?>
+                    <div role="tabpanel" class="tab-pane <?= $active ?>" id="<?= $port->getPortId() ?>port">
+                        <form name="port-form<?= $port->getPortId() ?>" id="port-form<?= $port->getPortId() ?>" action=""
+                              data-parsley-validate class="form-horizontal form-label-left" method="post">
+                            <input type="hidden" name="txtPortID" id="txtPortID" value="<?= $port->getPortId() ?>" />
+                            <div class="ln_solid"></div>
+                            <div class="row">
+                            <?php foreach ($list_group_applicant as $group_applicant ) { ?>
+                               <div class="col-md-4" >
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="last-name"><?= $group_applicant->getGroupName() ?> </label>
+                                        <div class="col-md-3 col-sm-3 col-xs-6" style="display: flex; align-items: center;">
+                                            <input maxlength="10"
+                                                   value="<?= \Indianimmigrationorg\Repositories\FastTrackFee::getPortGroupFee($port->getPortId(),$group_applicant->getGroupId())  ?>"
+                                                   type="text" id="txtGroup<?= $group_applicant->getGroupId() ?>" name="txtGroup<?= $group_applicant->getGroupId() ?>"
+                                                   class="form-control col-md-3 col-xs-6 text-right " style="width: 80%">
+                                            <span style="padding-left: 10px; font-weight: bold">USD</span>
+                                        </div>
+                                    </div>
+                               </div>
+                            <?php } ?>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    <button name="sbmFee<?= $port->getPortId() ?>" type="submit" class="btn btn-success">
+                                        <?php echo 'Save (' . $port->getPortName().')'; ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>

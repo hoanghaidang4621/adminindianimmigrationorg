@@ -1,0 +1,72 @@
+<script>
+    $( document ).ready(function() {
+        $('form[name=promotiontemplate-form]').submit(function(event) {
+            var valid = true;
+            if($('input[name=txtTitle]').val() == '') {
+                $('.msg-title').text('Title field is required.');
+                $('#txtTitle').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-title').text('');
+                $('#txtTitle').removeClass("border-red");
+            }
+            if($('textarea[name=txtContent]').val() == '') {
+                $('.msg-content').text('Content field is required.');
+                $('#txtContent').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-content').text('');
+                $('#txtContent').removeClass("border-red");
+            }
+            if( ! valid ) event.preventDefault();
+            if( valid ) {
+                $('button[name=sbmEmailtemplate]').prop('disabled', true);
+            }
+        });
+    });
+</script>
+
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="emailtemplate-title">Promtion Template </h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">Form Create</div>
+            <div class="x_content">
+                <br />
+                <form name="promotiontemplate-form" id="promotiontemplate-form" action="<?php echo $this->url->get('/promotiontemplate/create'); ?>" data-parsley-validate class="form-horizontal form-label-left" method="post">
+                    
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtSubject">Title 
+                            <span class="text-danger">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input maxlength="255" value="<?php echo isset($formData["template_title"]) ? $formData["template_subject"] : "" ?>" type="text" id="txtTitle" name="txtTitle" class="form-control col-md-7 col-xs-12 <?php echo isset($messages["title"]) ? $messages["status"] : ""; ?>" />
+                            <span class="text-danger msg-title"><?php echo isset($messages["title"]) ? $messages["title"] : ""?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtContent">Content
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <textarea class="form-control"  id="txtContent" name ="txtContent" style=" height: 212px;"><?php echo isset($formData["template_content"]) ? $formData["template_content"] : ""; ?></textarea>
+                            <span class="text-danger msg-content"><?php echo isset($messages["title"]) ? $messages["title"] : ""?></span>
+                        </div>
+                    </div>
+
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button name="sbmEmailtemplate" type="submit" class="btn btn-success">Save change</button>
+                            <a class="btn btn-primary" href="/promotiontemplate">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

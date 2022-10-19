@@ -1,0 +1,5 @@
+<?php include('model.phtml'); ?>
+<script>
+    $('.form_title').html('Form Edit');
+    $('form[name=language-form]').prop('action','<?php echo $this->url->get('/language/edit?id=').$formData["language_id"]; ?>');
+</script>

@@ -1,0 +1,184 @@
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="type-title">Detail Order #<?= $order['order_id'] ?></h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <br />
+                <div class="row" >
+                    <div class="col-md-6 ">
+                        <table class="table table-hover table-striped table-responsive table-bordered table-activity">
+                            <tbody>
+                            <tr>
+                                <td>Date</td>
+                                <td><?=$this->my->formatDateTime($order['order_register_date'])?></td>
+                            </tr>
+                            <tr>
+                                <td>Method</td>
+                                <td><?=$order['order_method']?></td>
+                            </tr>
+                            <?php if($order['order_date_payment'] >0 ){ ?>
+                                <tr>
+                                    <td>Date Payment</td>
+                                    <td><?=$this->my->formatDateTime($order['order_date_payment'])?></td>
+                                </tr>
+                            <?php } ?>
+                            <tr>
+                                <td>Status</td>
+                                <td><?=$order['order_status']?></td>
+                            </tr>
+                            <?php if(!empty($order['order_fail_reason'])){ ?>
+                                <tr>
+                                    <td>Reason Fail</td>
+                                    <td><?=$order['order_fail_reason']?></td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-hover table-striped table-responsive table-bordered table-activity">
+                            <tbody>
+                            <tr>
+                                <td>Type Visa</td>
+                                <td><?=$order['order_visa_type_name']?></td>
+                            </tr>
+                            <tr>
+                                <td>Date of Arrival</td>
+                                <td><?=$this->my->formatDateYMD($order['order_arrival_date'])?></td>
+                            </tr>
+                            <tr>
+                                <td>Date of Departure</td>
+                                <td><?=$this->my->formatDateYMD($order['order_exit_date'])?></td>
+                            </tr>
+                            <tr>
+                                <td>Transportation method</td>
+                                <td><?=$order['order_port_type_name']?></td>
+                            </tr>
+                            <tr>
+                                <td>Port of Arrival</td>
+                                <td><?=$order['order_port_name']?></td>
+                            </tr>
+                            <tr>
+                                <td>Special Request</td>
+                                <td><?=$order['order_special_request']?></td>
+                            </tr>
+                            <?php if(!empty($order['order_flight_number'])) { ?>
+                                <tr>
+                                    <td>Flight Number</td>
+                                    <td><?=$order['order_flight_number']?></td>
+                                </tr>
+                            <?php } ?>
+                            <?php if(!empty($order['order_arrival_time'])) { ?>
+                                <tr>
+                                    <td>Arrival Time</td>
+                                    <td><?=$order['order_arrival_time']?></td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <?php if(isset($order['user'])){ ?>
+                <h2>Detail User</h2>
+                <table class="table table-hover table-striped table-responsive table-bordered table-activity">
+                    <thead><tr style="font-weight: bold">
+                        <td>User Name</td>
+                        <td>Type User</td>
+                        <td>Email</td>
+                        <td>Phone</td>
+                        <td>Country</td>
+                    </tr></thead>
+                    <tbody>
+                    <tr>
+                        <td><?=$order['user']['user_name']?></td>
+                        <td><?=$order['user']['user_type']?></td>
+                        <td><?=$order['user']['user_email']?></td>
+                        <td><?=$order['user']['user_telapi_international_format']?></td>
+                        <td><?=$order['user']['user_country_name']?></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <?php } ?>
+                <h2> Order Member</h2>
+                <table class="table table-hover table-striped table-responsive table-bordered table-activity">
+                    <thead><tr style="font-weight: bold">
+                        <td>No</td>
+                        <td>Full Name</td>
+                        <td>Country</td>
+                        <td>Gender</td>
+                        <td>Birthday</td>
+                        <td width="100px">Passport</td>
+                    </tr></thead>
+                    <tbody>
+                    <?php foreach ($order['order_members'] as $member) {?>
+                    <tr>
+                        <td><?=$member['member_no']?></td>
+                        <td><?=$member['member_name']?></td>
+                        <td><?=$member['member_nationality']?></td>
+                        <td><?=$member['member_gender']?></td>
+                        <td><?=$member['member_birthday']?></td>
+                        <td><?=$member['member_passport']?></td>
+                    </tr>
+                    <?php } ?>
+                    <tr class="text-right">
+                        <td colspan="5"> Visa Service Fees </td>
+                        <td>$<?= $this->my->formatUSD($order['order_visa_fee']*($order['order_group_value'] - $order['order_exception'])+$order['order_exception_fee']) ?></td>
+                    </tr>
+                    <tr class="text-right">
+                        <td colspan="5"><?= $order["order_processing_name"] ?></td>
+                        <td>$<?= $this->my->formatUSD($order['order_processing_value']) ?></td>
+                    </tr>
+                    <?php if($order['order_discount_user_value'] > 0) { ?>
+                        <tr class="text-right">
+                            <td colspan="5"><?=$order['order_discount_user_name'] ?></td>
+                            <td>-$<?=$this->my->formatUSD($order['order_discount_user_value']) ?></td>
+                        </tr>
+                    <?php } ?>
+                    <?php if($order['order_promotion_value'] > 0) {?>
+                        <tr class="text-right">
+                            <td colspan="5"><?=$order['order_promotion_name']  ?></td>
+                            <td>-$<?=$this->my->formatUSD($order['order_promotion_value']) ?></td>
+                        </tr>
+                    <?php } ?>
+                    <tr class="text-right">
+                        <td colspan="5"> Total Service Fees </td>
+                        <td>$<?= $this->my->formatUSD($order['order_total_service']) ?></td>
+                    </tr>
+                    <?php if($order['order_total_government_fee'] > 0) {?>
+                        <tr class="text-right">
+                            <td colspan="5"> Government Fee</td>
+                            <td>$<?= $this->my->formatUSD($order['order_total_government_fee']) ?></td>
+                        </tr>
+                    <?php } ?>
+                    <?php if($order['order_full_package'] >0 ) { ?>
+                        <tr class="text-right">
+                            <td colspan="5"> Full Package</td>
+                            <td>$<?= $this->my->formatUSD($order['order_full_package_value']) ?></td>
+                        </tr>
+                    <?php } ?>
+                    <?php foreach ($order['order_extra_services'] as $extra_service)  { ?>
+                        <tr class="text-right">
+                            <td colspan="5"><?= $extra_service['order_extra_service_name'] ?></td>
+                            <td>$<?=$this->my->formatUSD($extra_service['order_extra_service_price'])?></td>
+                        </tr>
+                    <?php } ?>
+                    <tr class="text-right" style="font-weight: bold;color: #9f2b1e">
+                        <td colspan="5"> Total</td>
+                        <td>$<?= $this->my->formatUSD($order['order_total']) ?></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <?=$order['order_button_html']  ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

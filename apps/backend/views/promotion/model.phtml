@@ -1,0 +1,136 @@
+<script>
+    $(document).ready(function () {
+        $('form[name=promotion-form]').submit(function (event) {
+            var valid = true;
+
+            if ($('input[name=txtCode]').val() == '') {
+                $('.msg-code').text('Code field is required.');
+                $('#txtCode').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-code').text('');
+                $('#txtCode').removeClass("border-red");
+            }
+            if ($('input[name=txtPercent]').val() == '') {
+                $('.msg-percent').text('Percent field is required.');
+                $('#txtPercent').addClass("border-red");
+                valid = false;
+            } else if (isNaN($('input[name=txtPercent]').val())) {
+                $('.msg-percent').text('Enter a valid Percent.');
+                $('#txtPercent').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-percent').text('');
+                $('#txtPercent').removeClass("border-red");
+            }
+            var startDate = $('input[name=txtStartDate]').val();
+            var endDate = $('input[name=txtEndDate]').val();
+            if((startDate == "" )||(endDate == "")) {
+                if(startDate == '') {
+                    $('.msg-startdate').text('Start date field is required.');
+                    $('#txtStartDate').addClass("border-red");
+                    valid = false;
+                }else {
+                    $('.msg-startdate').text('');
+                    $('#txtStartDate').removeClass("border-red");
+                }
+                if(endDate == '') {
+                    $('.msg-enddate').text('End date field is required.');
+                    $('#txtEndDate').addClass("border-red");
+                    valid = false;
+                }else {
+                    $('.msg-enddate').text('');
+                    $('#txtEndDate').removeClass("border-red");
+                }
+            }else if((startDate != "")&&(endDate != "")){
+
+                var intStart = new Date(startDate) ;
+                var intEnd = new Date(endDate) ;
+                if (intEnd < intStart) {
+                    $('.msg-enddate').text('Must be greater than Start Date.');
+                    $('#txtEndDate').addClass("border-red");
+                    valid = false;
+                } else {
+                    $('.msg-enddate').text('');
+                    $('#txtEndDate').removeClass("border-red");
+                }
+            }
+            if (!valid) event.preventDefault();
+            if (valid) {
+                $('button[name=submit]').prop('disabled', true);
+            }
+        });
+    });
+
+</script>
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="type-title">Promotion</h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 class="form_title"><?php echo isset($title)?$title:''; ?></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br/>
+                <form name="promotion-form" id="promotion-form" data-parsley-validate
+                      class="form-horizontal form-label-left" method="post">                    
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Code<span
+                                    class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input maxlength="255"
+                                   value="<?php echo isset($formData["promotion_code"]) ? $formData["promotion_code"] : "" ?>"
+                                   type="text" id="txtCode" name="txtCode"
+                                   class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["code"])) ? $messages["status"] : ""; ?>">
+                            <span class="text-danger msg-code"><?php echo isset($messages["code"]) ? $messages["code"] : ""; ?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Percent %<span class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input maxlength="3" value="<?php echo isset($formData["promotion_percent"]) ? $formData["promotion_percent"] : "" ?>" type="text" id="txtPercent" name="txtPercent"   class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["percent"])) ? $messages["status"] : ""; ?>">
+                            <span class="text-danger msg-percent"><?php echo isset($messages["percent"]) ? $messages["percent"] : "";?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Start Date <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php
+                            $localTime = $this->globalVariable->localTime;
+                            $startDate_check= date('m/d/Y H:i',$localTime);
+                            ?>
+                            <input type="hidden" id="nowDate" name="nowDate" value="<?php echo $startDate_check;  ?>" />
+                            <input value="<?php echo isset($formData["promotion_startdate"]) ? $formData["promotion_startdate"] : "" ?>" type="text" id="txtStartDate" data-timepicker="true" data-time-format='hh:ii' name="txtStartDate"  class="form-control col-md-7 col-xs-12 datepicker-here <?php echo (isset($messages["start_date"])  ) ? $messages["status"] : ""; ?>">
+                            <span class="text-danger msg-startdate"><?php echo isset($messages["start_date"]) ? $messages["start_date"] : "";?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">End Date <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+
+                            <input value="<?php echo isset($formData["promotion_enddate"]) ? $formData["promotion_enddate"] : "" ?>" type="text" id="txtEndDate" data-timepicker="true" data-time-format='hh:ii' name="txtEndDate"  class="form-control col-md-7 col-xs-12 datepicker-here <?php echo (isset($messages["end_date"])  ) ? $messages["status"] : ""; ?>">
+                            <span class="text-danger msg-enddate"><?php echo isset($messages["end_date"]) ? $messages["end_date"] : "";?></span>
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-port">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button name="submit" type="submit" class="btn btn-success">Save change</button>
+                            <a class="btn btn-primary" href="<?php echo $this->url->get("/promotion"); ?>">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

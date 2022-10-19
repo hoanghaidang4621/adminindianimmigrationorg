@@ -1,0 +1,125 @@
+<script>
+    $(document).ready(function() {
+        $('form[name=email-tempalte-form]').submit(function(event) {
+            var valid = true;
+            if($('input[name=txtType]').val() == '') {
+                $('.msg-type').text('Type field is required.');
+                $('#txtType').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-type').text('');
+                $('#txtType').removeClass("border-red");
+            }
+            if( ! valid ) event.preventDefault();
+            if( valid ) {
+                $('button[name=sbmEmailtempalte]').prop('disabled', true);
+            }
+        });
+    });
+</script>
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="type-title">Template Email</h3>
+    </div>
+</div>
+<?php if(!empty($messages['message']))
+{
+    ?>
+    <div class="clearfix"></div>
+    <p style="font-size:18px;text-align:center" class="alert alert-<?php echo $messages['typeMessage']?>">
+        <?php echo $messages['message']; ?>
+    </p>
+<?php }	?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">Form Edit
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <form name="email-tempalte-form" id="email-tempalte-form" data-parsley-validate class="form-horizontal form-label-left" method="post">
+                    <input type="hidden" name="save" id="save" value="<?php echo \Indianimmigrationorg\Models\VisaLanguage::GENERAL ;?>" />
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtType">Type <span class="red">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input maxlength="255" value="<?php echo isset($formData["email_type"]) ? $formData["email_type"] : "" ?>" type="text" id="txtType" name="txtType" class="form-control col-md-7 col-xs-12 <?php echo isset($messages["type"]) ? $messages["status"] : ""; ?>" />
+                            <span class="text-danger msg-type"><?php echo isset($messages["type"]) ? $messages["type"] : ""?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Status</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-check">
+                            <label class="container_radio"><input type="radio" name="radStatus" value="Y" <?php echo (isset($formData["email_status"]) && $formData["email_status"]=="Y" )  ? "checked" : '' ; ?>>Yes<span class="checkmark"></span></label>
+                            <label class="container_radio"><input type="radio" name="radStatus" value="N" <?php echo (isset($formData["email_status"]) && $formData["email_status"]=="N" )  ? "checked" : '' ; ?>>No<span class="checkmark"></span></label>
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button name="sbmEmailtempalte" type="submit" class="btn btn-success">Save change</button>
+                            <a class="btn btn-primary" href="<?php echo $this->url->get("/emailtemplate?". "slcLang=" . $formData['lang_current']); ?>">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <ul class="nav nav-pills" role="tablist">
+                <?php
+                foreach ( $formData['arr_language'] as $code => $lang ){
+                    $active = $formData['lang_current']== $code?"active":"";
+                    ?>
+                    <li role="presentation" class="<?php echo $active; ?>"><a href="#<?php echo $code ?>translate" aria-controls="<?php echo $code ?>translate" role="tab" data-toggle="tab"><?php echo strtoupper($code).' - '
+                                .$lang;
+                            ?></a></li>
+                <?php } ?>
+            </ul>
+            <div class="tab-content">
+                <?php foreach ($formData['arr_language'] as $code => $lang ) {
+                    $active = $formData['lang_current']== $code?"active":"";
+                    ?>
+                    <div role="tabpanel" class="tab-pane <?php echo $active; ?>" id="<?php echo $code; ?>translate">
+                        <br>
+                        <form name="email-tempalte-form<?php echo $code; ?>" id="email-tempalte-form<?php echo $code; ?>" action="" data-parsley-validate class="form-horizontal form-label-left" method="post">
+                            <input type="hidden" name="save" id="save" value="<?php echo $code; ?>" />
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtSubject">Subject</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input maxlength="255" value="<?php echo isset($formData['arr_translate'][$code]["email_subject"]) ? $formData['arr_translate'][$code]["email_subject"] : "" ?>" type="text" id="txtSubject" name="txtSubject" class="form-control col-md-7 col-xs-12" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="txtContent">Content</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea class="form-control"  id="txtContent" name ="txtContent" style=" height: 212px;"><?php echo isset($formData['arr_translate'][$code]["email_content"]) ? $formData['arr_translate'][$code]["email_content"] : ""; ?></textarea>
+                                </div>
+                            </div>
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    <button name="sbmEmailtempalte<?php echo $code; ?>" type="submit" class="btn btn-success">
+                                        <?php echo 'Save (' . $lang.')'; ?>
+                                    </button>
+                                </div>
+                            </div>
+                            <script>
+                                $( document ).ready(function() {
+                                    $('form[name=email-tempalte-form<?php echo $code; ?>]').submit(function (event) {
+                                        $('#sbmEmailtempalte<?php echo $code; ?>').prop('disabled', true);
+                                    });
+                                });
+                            </script>
+                        </form>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>

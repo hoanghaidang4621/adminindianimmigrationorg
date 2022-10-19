@@ -1,0 +1,51 @@
+<div class="page-title">
+    <div class="title_left">
+        <h3>Delete Cache Tool</h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+<?php
+if (isset($msg_result['status'])) {
+    $msg_result['status'] = !$msg_result['status'] ? "error" : "success";
+    ?>
+    <div class="alert alert-<?= $msg_result['status'] ?> alert-dismissible fade in" role="alert">
+        <?php echo $msg_result['message']; ?>
+    </div>
+<?php } ?>
+<form class="searchForm" name="form-deletecache" method="post" action="<?php echo $this->url->get('deletecachetool/deletecache'); ?>">
+    <input type="hidden" name="delete" id="deleteCache" value=""/>
+    <input type="hidden" name="siteDelete" id="siteDelete" value=""/>
+    <div>
+        <div style="border-bottom: 1px solid #c4c4c4;margin-bottom: 20px;padding-bottom: 10px;"></div>
+        <div style="border-bottom: 1px solid #c4c4c4;margin-bottom: 20px;padding-bottom: 10px;">
+            <h4 style="font-size: 18px">Cache Config<br><span class="text-danger" style="font-size: 15px"></span></h4>
+            <button data-form-name="form-deleterouter" type="button" name="btnDeleteRouterCache" title="<?= $URL_DELETE_CACHE ?>" class="btn btn-success cacheDeleteTool">
+                Delete Cache
+            </button>
+            <br>
+            <button data-form-name="form-deleterouter" type="button" name="btnDeleteRouterCache" title="<?= $URL_DELETE_ROUTER_CACHE ?>" class="btn btn-success cacheDeleteTool">
+                Router
+            </button>
+            <br>
+            <button data-form-name="form-deleterouter" type="button" name="btnDeleteRouterCache" title="<?= $URL_DELETE_LOCATION_LANGUAGE_CACHE ?>" class="btn btn-success cacheDeleteTool">
+                Language
+            </button>
+            <br>
+            <button data-form-name="form-deleterouter" type="button" name="btnDeleteRouterCache" title="<?= $URL_DELETE_PAGE_CACHE ?>" class="btn btn-success cacheDeleteTool">
+                Page
+            </button>
+            <br>
+        </div>
+
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $('button.cacheDeleteTool').click(function () {
+            var type = $(this).attr('title');
+            $('#deleteCache').val(type);
+            $('.cacheDelete').prop('disable',true);
+            $('form[name=form-deletecache').submit();
+        });
+    });
+</script>

@@ -1,0 +1,118 @@
+<script>
+    $(document).ready(function () {
+        $('form[name=language-form]').submit(function (event) {
+            var valid = true;
+            if ($('select[name=slcType]').val() == '') {
+                $('.msg-type').text('Port Type field is required.');
+                $('#slcType').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-type').text('');
+                $('#slcType').removeClass("border-red");
+            }
+            if ($('input[name=txtName]').val() == '') {
+                $('.msg-name').text('Name field is required.');
+                $('#txtName').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-name').text('');
+                $('#txtName').removeClass("border-red");
+            }
+            if ($('input[name=txtOrder]').val() == '') {
+                $('.msg-order').text('Order field is required.');
+                $('#txtOrder').addClass("border-red");
+                valid = false;
+            } else if (isNaN($('input[name=txtOrder]').val())) {
+                $('.msg-order').text('Enter a valid order.');
+                $('#txtOrder').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-order').text('');
+                $('#txtOrder').removeClass("border-red");
+            }
+            if (!valid) event.preventDefault();
+            if (valid) {
+                $('button[name=submit]').prop('disabled', true);
+            }
+        });
+    });
+
+</script>
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="type-title">Port</h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 class="form_title"><?php echo isset($title)?$title:''; ?></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br/>
+                <form name="language-form" id="language-form" data-parsley-validate
+                      class="form-horizontal form-label-left" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="slcType">Port Type <span
+                                    class="text-danger">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="slcType" name="slcType"
+                                    class="form-control <?php echo isset($messages["port_type_id"]) ? $messages["status"] : ""; ?>">
+                                <option value="">Select Type...</option>
+                                <?= isset($select_port_type) ? $select_port_type : ""
+                                ?>
+                            </select>
+                            <span class="text-danger msg-type"><?php echo isset($messages["article_type_id"]) ? $messages["article_type_id"] : "" ?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Name<span
+                                    class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input maxlength="255"
+                                   value="<?php echo isset($formData["port_name"]) ? $formData["port_name"] : "" ?>"
+                                   type="text" id="txtName" name="txtName"
+                                   class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["name"])) ? $messages["status"] : ""; ?>">
+                            <span class="text-danger msg-name"><?php echo isset($messages["name"]) ? $messages["name"] : ""; ?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Order <span
+                                    class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input maxlength="10"
+                                   value="<?php echo isset($formData["port_order"]) ? $formData["port_order"] : "" ?>"
+                                   id="txtOrder" name="txtOrder"
+                                   class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["order"])) ? $messages["status"] : ""; ?>"
+                                   type="text">
+                            <span class="text-danger msg-order"><?php echo isset($messages["order"]) ? $messages["order"] : ""; ?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Active</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-check">
+                            <label class="container_radio"><input type="radio" name="radActive"
+                                                                  value="Y" <?php echo (isset($formData["port_active"]) && $formData["port_active"] == "Y") ? "checked" : ''; ?>>Yes<span
+                                        class="checkmark"></span></label>
+                            <label class="container_radio"><input type="radio" name="radActive"
+                                                                  value="N" <?php echo (isset($formData["port_active"]) && $formData["port_active"] == "N") ? "checked" : ''; ?>>No<span
+                                        class="checkmark"></span></label>
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-port">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button name="submit" type="submit" class="btn btn-success">Save change</button>
+                            <a class="btn btn-primary" href="<?php echo $this->url->get("/port"); ?>">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

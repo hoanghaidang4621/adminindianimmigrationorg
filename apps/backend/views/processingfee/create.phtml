@@ -1,0 +1,133 @@
+<script>
+    $( document ).ready(function() {
+        $('#txtName').on('input', function () {
+            var str = $(this).val();
+            var str_slug = slugify(str);
+            $('#txtKeyword').val(str_slug);
+        });
+        $('form[name=processing-form]').submit(function(event) {
+            var valid = true;
+
+            if ($('input[name=txtName]').val() == '') {
+                $('.msg-name').text('Name field is required.');
+                $('#txtName').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-name').text('');
+                $('#txtName').removeClass("border-red");
+            }            
+            if ($('input[name=txtFee]').val() == '') {
+                $('.msg-fee').text('Fee field is required.');
+                $('#txtFee').addClass("border-red");
+                valid = false;
+            } else if (isNaN($('input[name=txtFee]').val())) {
+                $('.msg-fee').text('Enter a valid Fee.');
+                $('#txtFee').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-fee').text('');
+                $('#txtFee').removeClass("border-red");
+            }
+            if ($('input[name=txtDate]').val() == '') {
+                $('.msg-date').text('Date field is required.');
+                $('#txtDate').addClass("border-red");
+                valid = false;
+            } else if (isNaN($('input[name=txtDate]').val())) {
+                $('.msg-date').text('Enter a valid Date.');
+                $('#txtDate').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-date').text('');
+                $('#txtDate').removeClass("border-red");
+            }
+            if ($('input[name=txtOrder]').val() == '') {
+                $('.msg-order').text('Order field is required.');
+                $('#txtOrder').addClass("border-red");
+                valid = false;
+            } else if (isNaN($('input[name=txtOrder]').val())) {
+                $('.msg-order').text('Enter a valid Order.');
+                $('#txtOrder').addClass("border-red");
+                valid = false;
+            } else {
+                $('.msg-order').text('');
+                $('#txtOrder').removeClass("border-red");
+            }
+            if( ! valid ) event.preventDefault();
+            if( valid ) {
+                $('button[name=submit]').prop('disabled', true);
+            }
+        });
+    });
+
+</script>
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="type-title">Processing Fee</h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 class="form_title">Form <?= ucwords($formData['mode']) ?></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <form name="processing-form" id="device-form" data-parsley-validate class="form-horizontal form-label-left" method="post">
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Name <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input maxlength="255" value="<?php echo isset($formData["processing_name"]) ? $formData["processing_name"] : "" ?>"
+                                       type="text" id="txtName" name="txtName"   class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["processing_name"])) ? $messages["status"] : ""; ?>">
+                                <span class="text-danger msg-name"><?php echo isset($messages["processing_name"]) ? $messages["processing_name"] : "";?></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Fee <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input maxlength="10" value="<?php echo isset($formData["processing_fee"]) ? $formData["processing_fee"] : "" ?>" type="text" id="txtFee" name="txtFee"  class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["processing_fee"])) ? $messages["status"] : ""; ?>">
+                                <span class="text-danger msg-fee"><?php echo isset($messages["processing_fee"]) ? $messages["processing_fee"] : "";?></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Date <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input maxlength="10" value="<?php echo isset($formData["processing_date"]) ? $formData["processing_date"] : "" ?>" type="text" id="txtDate" name="txtDate"  class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["processing_date"])) ? $messages["status"] : ""; ?>">
+                                <span class="text-danger msg-date"><?php echo isset($messages["processing_date"]) ? $messages["processing_date"] : "";?></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Order <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input maxlength="10" value="<?php echo isset($formData["processing_order"]) ? $formData["processing_order"] : "" ?>" type="text" id="txtOrder" name="txtOrder"  class="form-control col-md-7 col-xs-12 <?php echo (isset($messages["processing_order"])) ? $messages["status"] : ""; ?>">
+                                <span class="text-danger msg-order"><?php echo isset($messages["processing_order"]) ? $messages["processing_order"] : "";?></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Active </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-check">
+                                <label class="container_radio"><input type="radio" name="radActive" value="Y" <?php echo (isset($formData["processing_active"]) && $formData["processing_active"]=="Y" )  ? "checked" : '' ; ?>>Yes<span class="checkmark"></span></label>
+                                <label class="container_radio"><input type="radio" name="radActive" value="N" <?php echo (isset($formData["processing_active"]) && $formData["processing_active"]=="N" )  ? "checked" : '' ; ?>>No<span class="checkmark"></span></label>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <button name="submit" type="submit" class="btn btn-success">Save change</button>
+                                <a class="btn btn-primary" href="/processingfee">Cancel</a>
+                            </div>
+                        </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

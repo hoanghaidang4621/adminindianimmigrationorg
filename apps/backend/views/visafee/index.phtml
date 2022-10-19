@@ -1,0 +1,90 @@
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="type-title">Visa Service Fee</h3>
+    </div>
+</div>
+<?php if (isset($msg_result['status'])) { ?>
+    <div class="clearfix"></div>
+    <div class="alert alert-<?php echo $msg_result['status'] ?> alert-dismissible fade in" role="alert">
+        <?php echo $msg_result['msg']; ?>
+    </div>
+<?php } ?>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <ul class="nav nav-pills" role="tablist">
+                <?php
+                /**
+                 * @var \Indianimmigrationorg\Models\VisaVisaType $type_visa
+                 * * @var \Indianimmigrationorg\Models\VisaGroupApplicant $group_appllicant
+                 */
+                foreach ( $list_type_visa as $type_visa ){
+                    $active = $type_visa->getTypeId()== $type_id?"active":"";
+                    ?>
+                    <li role="presentation" class="<?= $active; ?>">
+                        <a href="#<?= $type_visa->getTypeId() ?>visatype"
+                           aria-controls="<?= $type_visa->getTypeId() ?>visatype"
+                           role="tab"
+                           data-toggle="tab"><?= $type_visa->getTypeName() ?></a>
+                    </li>
+                <?php } ?>
+            </ul>
+            <div class="tab-content">
+                <?php foreach ( $list_type_visa as $type_visa ){
+                    $active = $type_visa->getTypeId()== $type_id?"active":"";
+                    ?>
+                    <div role="tabpanel" class="tab-pane <?= $active ?>" id="<?= $type_visa->getTypeId() ?>visatype">
+                        <form name="type-form<?= $type_visa->getTypeId() ?>" id="type-form<?= $type_visa->getTypeId() ?>" action=""
+                              data-parsley-validate class="form-horizontal form-label-left" method="post">
+                            <input type="hidden" name="txtTypeID" id="txtTypeID" value="<?= $type_visa->getTypeId() ?>" />
+                            <div class="ln_solid"></div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h2><strong>Group Applicant</strong></h2>
+                                    <?php foreach ($list_group_applicant as $group_applicant ) { ?>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name"><?= $group_applicant->getGroupName() ?> </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6" style="display: flex; align-items: center;">
+                                                <input maxlength="10"
+                                                       value="<?= \Indianimmigrationorg\Repositories\VisaFee::getTypeGroupFee($type_visa->getTypeId(),$group_applicant->getGroupId())  ?>"
+                                                       type="text" id="txtGroup<?= $group_applicant->getGroupId() ?>" name="txtGroup<?= $group_applicant->getGroupId() ?>"
+                                                       class="form-control col-md-3 col-xs-6 text-right"  style="width: 80%">
+                                                <span style="padding-left: 10px; font-weight: bold">USD</span>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h2><strong>Country Exception</strong></h2>
+                                    <?php foreach ($list_country as $country ) {
+                                        $countryFee = \Indianimmigrationorg\Repositories\CountryFee::findFirstById($type_visa->getTypeId(),$country->getCountryId());
+                                        ?>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name"><?= $country->getCountryName() ?> </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6" style="display: flex; align-items: center;">
+                                                <input maxlength="10"
+                                                       value="<?php echo $countryFee?$countryFee->getVisaFee():'' ; ?>"
+                                                       type="text" id="txtCountry<?= $country->getCountryId() ?>" name="txtCountry<?= $country->getCountryId() ?>"
+                                                       class="form-control col-md-3 col-xs-6" style="width: 80%; text-align: right ">
+                                                <span style="padding-left: 10px; font-weight: bold">USD</span>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    <button name="sbmFee<?= $type_visa->getTypeId() ?>" type="submit" class="btn btn-success">
+                                        <?php echo 'Save (' . $type_visa->getTypeName().')'; ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>

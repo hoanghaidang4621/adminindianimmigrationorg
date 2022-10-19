@@ -1,0 +1,101 @@
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="type-title">Detail Make Payment #<?= $payment['payment_id'] ?></h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <br />
+                <div class="row" >
+                    <div class="col-md-6 ">
+                        <table class="table table-hover table-striped table-responsive table-bordered table-activity">
+                            <tbody>
+                            <tr>
+                                <td>Date</td>
+                                <td><?=$this->my->formatDateTime($payment['payment_insertdate'])?></td>
+                            </tr>
+                            <tr>
+                                <td>Method</td>
+                                <td><?=$payment['payment_method']?></td>
+                            </tr>
+                            <?php if($payment['payment_date'] >0 ){ ?>
+                                <tr>
+                                    <td>Date Payment</td>
+                                    <td><?=$this->my->formatDateTime($payment['payment_date'])?></td>
+                                </tr>
+                            <?php } ?>
+                            <tr>
+                                <td>Status</td>
+                                <td><?=$payment['payment_status']?></td>
+                            </tr>
+                            <?php if(!empty($payment['payment_fail_reason'])){ ?>
+                                <tr>
+                                    <td>Reason Fail</td>
+                                    <td><?=$payment['payment_fail_reason']?></td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-hover table-striped table-responsive table-bordered table-activity">
+                            <tbody>
+                            <tr>
+                                <td>Transation Id</td>
+                                <td><?=$payment['payment_transation_id']?></td>
+                            </tr>
+                            <?php if($payment['payment_transation_date']>0) { ?>
+                            <tr>
+                                <td>Transation Date</td>
+                                <td><?=$payment['payment_transation_date']?></td>
+                            </tr>
+                            <?php } ?>
+                            <tr>
+                                <td>Credit Name</td>
+                                <td><?=$payment['payment_creditname']?></td>
+                            </tr>
+                            <tr>
+                                <td>Credit Card</td>
+                                <td><?=$payment['payment_creditcard']?></td>
+                            </tr>
+                            <tr>
+                                <td>Note</td>
+                                <td><?=$payment['payment_note']?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <?php if(isset($payment['user'])){ ?>
+                <h2>Detail User</h2>
+                <table class="table table-hover table-striped table-responsive table-bordered table-activity">
+                    <thead><tr style="font-weight: bold">
+                        <td>User Name</td>
+                        <td>Type User</td>
+                        <td>Email</td>
+                        <td>Phone</td>
+                        <td>Country</td>
+                    </tr></thead>
+                    <tbody>
+                    <tr>
+                        <td><?=$payment['user']['user_name']?></td>
+                        <td><?=$payment['user']['user_type']?></td>
+                        <td><?=$payment['user']['user_email']?></td>
+                        <td><?=$payment['user']['user_telapi_international_format']?></td>
+                        <td><?=$payment['user']['user_country_name']?></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <?php } ?>
+                <div class="form-group">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <?=$payment['payment_button_html']  ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

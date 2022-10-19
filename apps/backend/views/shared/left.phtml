@@ -1,0 +1,230 @@
+<?php
+use Indianimmigrationorg\Repositories\Role;
+if (isset($role_function)) {
+    $pre = 'backend';
+    $menu_active = 'class="active"';
+    $menu_sub_active = 'style="display: block;"';
+    $menu_sub_sub_active = 'class="current-page"';
+    $controllers = Role::getControllers();
+    $controllerName = $this->dispatcher->getControllerName();
+
+    $price = isset($controllers['price']) ? $controllers['price'] : array();
+    $check_price = (Role::checkMenu($role_function, $price)) ? true : false;
+    $check_price_sub = (Role::checkMenuSub($price, $this->dispatcher->getControllerName())) ? true : false;
+
+    $setting = isset($controllers['setting']) ? $controllers['setting'] : array();
+    $check_setting = (Role::checkMenu($role_function, $setting)) ? true : false;
+    $check_setting_sub = (Role::checkMenuSub($setting, $this->dispatcher->getControllerName())) ? true : false;
+
+    $promotion = isset($controllers['promotion']) ? $controllers['promotion'] : array();
+    $check_promotion = (Role::checkMenu($role_function, $setting)) ? true : false;
+    $check_promotion_sub = (Role::checkMenuSub($promotion, $this->dispatcher->getControllerName())) ? true : false;
+
+    $content = isset($controllers['content']) ? $controllers['content'] : array();
+    $check_content = (Role::checkMenu($role_function, $content)) ? true : false;
+    $check_content_sub = (Role::checkMenuSub($content, $this->dispatcher->getControllerName())) ? true : false;
+
+}
+?>
+<div class="col-md-3 left_col">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+            <a href="<?php echo $this->url->get("/"); ?>" class="site_title"><i class="fa fa-institution"></i>
+                <span>India</span></a>
+        </div>
+        <div class="clearfix"></div>
+        <br/>
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+                <ul class="nav side-menu">
+                    <?php if ($check_content) { ?>
+                        <li <?php echo ($check_content_sub) ? $menu_active : ""; ?> ><a><i class="fa fa-sliders"></i>
+                                Content <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu" <?php echo ($check_content_sub) ? $menu_sub_active : ""; ?> >
+
+                                <?php if (Role::checkiMenuItem($role_function, "type")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "type") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/type"); ?>">Type</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "article")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "article") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/article"); ?>">Article</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "banner")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "banner") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/banner"); ?>">Banner</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "visatype")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "visatype") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/visatype"); ?>">Visa Type</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "groupapplicant")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "groupapplicant") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/groupapplicant"); ?>">Group Applicant</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "porttype")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "porttype") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/porttype"); ?>">Port Type</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "port")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "port") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/port"); ?>">Port</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "car")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "car") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/car"); ?>">Car</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "country")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "country") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/country"); ?>">Country</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "newspaper")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "newspaper") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/newspaper"); ?>">Newspaper</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "newspaperarticle")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "newspaperarticle") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/newspaperarticle"); ?>">Newspaper Article</a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </li>
+                    <?php } ?>
+                    <?php if ($check_price) { ?>
+                        <li <?php echo ($check_price_sub) ? $menu_active : ""; ?> ><a><i class="fa fa-money"></i></i>
+                                Pricing <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu" <?php echo ($check_price_sub) ? $menu_sub_active : ""; ?> >
+                                    <?php if (Role::checkiMenuItem($role_function, "visafee")) { ?>
+                                        <li <?php echo ($this->dispatcher->getControllerName() === "visafee") ? $menu_sub_sub_active : ""; ?> >
+                                            <a href="<?php echo $this->url->get("/visafee"); ?>">Visa Fee</a>
+                                        </li>
+                                    <?php } ?>
+                                    <?php if (Role::checkiMenuItem($role_function, "fasttrackfee")) { ?>
+                                        <li <?php echo ($this->dispatcher->getControllerName() === "fasttrackfee") ? $menu_sub_sub_active : ""; ?> >
+                                            <a href="<?php echo $this->url->get("/fasttrackfee"); ?>">Fast Track Fee</a>
+                                        </li>
+                                    <?php } ?>
+                                    <?php if (Role::checkiMenuItem($role_function, "carpickupfee")) { ?>
+                                        <li <?php echo ($this->dispatcher->getControllerName() === "carpickupfee") ? $menu_sub_sub_active : ""; ?> >
+                                            <a href="<?php echo $this->url->get("/carpickupfee"); ?>">Car Pickup Fee</a>
+                                        </li>
+                                    <?php } ?>
+                                    <?php if (Role::checkiMenuItem($role_function, "processingfee")) { ?>
+                                        <li <?php echo ($this->dispatcher->getControllerName() === "processingfee") ? $menu_sub_sub_active : ""; ?> >
+                                            <a href="<?php echo $this->url->get("/processingfee"); ?>">Processing Fee</a>
+                                        </li>
+                                    <?php } ?>
+                                    <?php if (Role::checkiMenuItem($role_function, "governmentfee")) { ?>
+                                        <li <?php echo ($this->dispatcher->getControllerName() === "governmentfee") ? $menu_sub_sub_active : ""; ?> >
+                                            <a href="<?php echo $this->url->get("/governmentfee"); ?>">Government Fee</a>
+                                        </li>
+                                    <?php } ?>
+                                    <?php if (Role::checkiMenuItem($role_function, "extraservice")) { ?>
+                                        <li <?php echo ($this->dispatcher->getControllerName() === "extraservice") ? $menu_sub_sub_active : ""; ?> >
+                                            <a href="<?php echo $this->url->get("/extraservice"); ?>">Extra Service</a>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                        </li>
+
+                    <?php } ?>
+                    <?php if ($check_promotion) { ?>
+                        <li <?php echo ($check_promotion_sub) ? $menu_active : ""; ?> ><a><i class="fa fa-gift"></i>
+                                Promotion <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu" <?php echo ($check_promotion_sub) ? $menu_sub_active : ""; ?> >
+                                <?php if (Role::checkiMenuItem($role_function, "promotion")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "promotion") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/promotion"); ?>">Promotion</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "promotiontemplate")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "promotiontemplate") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/promotiontemplate"); ?>">Promotion Template</a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </li>
+                    <?php } ?>
+                    <?php if ($check_setting) { ?>
+                        <li <?php echo ($check_setting_sub) ? $menu_active : ""; ?> ><a><i class="fa fa-cogs"></i>
+                                Settings <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu" <?php echo ($check_setting_sub) ? $menu_sub_active : ""; ?> >
+                                <?php if (Role::checkiMenuItem($role_function, "page")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "page") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/page"); ?>">Page</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "configcontent")) { ?>
+                                     <li <?php echo ($this->dispatcher->getControllerName() === "configcontent") ? $menu_sub_sub_active : ""; ?> >
+                                         <a href="<?php echo $this->url->get("/configcontent"); ?>">Config</a>
+                                     </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "emailtemplate")) { ?>
+                                      <li <?php echo ($this->dispatcher->getControllerName() === "emailtemplate") ? $menu_sub_sub_active : ""; ?> >
+                                         <a href="<?php echo $this->url->get("/emailtemplate"); ?>">Template Email</a>
+                                      </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "location")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "location") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/location"); ?>">Location</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "language")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "language") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/language"); ?>">Language</a>
+                                    </li>
+                                <?php } ?>
+                                <?php if (Role::checkiMenuItem($role_function, "role")) { ?>
+                                    <li <?php echo ($this->dispatcher->getControllerName() === "role") ? $menu_sub_sub_active : ""; ?> >
+                                        <a href="<?php echo $this->url->get("/role"); ?>">Role</a>
+                                    </li>
+                                <?php } ?>
+
+
+                            </ul>
+                        </li>
+                        <?php if(Role::checkiMenuItem($role_function,"deletecachetool")) { ?>
+                            <li <?php echo ($this->dispatcher->getControllerName() === "deletecachetool")?$menu_active:""; ?> ><a href="<?php echo $this->url->get("/deletecachetool");?>"><i class="fa fa-copy"></i>Delete Cache Tool </a></li>
+                        <?php } ?>
+                    <?php } ?>
+
+                    <?php if (Role::checkiMenuItem($role_function, "cloudupload")) { ?>
+                        <li <?php echo ($this->dispatcher->getControllerName() === "cloudupload") ? $menu_active : ""; ?> >
+                            <a href="<?php echo $this->url->get("/cloudupload"); ?>"><i class="fa fa-file"></i>Upload
+                                File</a></li>
+                    <?php } ?>
+                    <?php if(Role::checkiMenuItem($role_function,"order")) { ?>
+                        <li <?php echo ($this->dispatcher->getControllerName() === "order")?$menu_active:""; ?> ><a href="<?php echo $this->url->get("/order");?>"><i class="fa fa-shopping-cart"></i>Order</a></li>
+                    <?php } ?>
+                    <?php if(Role::checkiMenuItem($role_function,"payment")) { ?>
+                        <li <?php echo ($controllerName === "payment")?$menu_active:""; ?> ><a href="<?php echo $this->url->get("/payment");?>"><i class="fa fa-money"></i>Make Payment</a></li>
+                    <?php } ?>
+                    <?php if(Role::checkiMenuItem($role_function,"checkstatus")) { ?>
+                        <li <?php echo ($controllerName === "checkstatus")?$menu_active:""; ?> ><a href="<?php echo $this->url->get("/checkstatus");?>"><i class="fa fa-chevron-down"></i>CheckStatus</a></li>
+                    <?php } ?>
+                    <?php if(Role::checkiMenuItem($role_function,"leadform")) { ?>
+                        <li <?php echo ($controllerName === "leadform")?$menu_active:""; ?> ><a href="<?php echo $this->url->get("/leadform");?>"><i class="fa fa-wpforms"></i>Lead Form</a></li>
+                    <?php } ?>
+                    <?php if(Role::checkiMenuItem($role_function,"contactus")) { ?>
+                        <li <?php echo ($controllerName === "contactus")?$menu_active:""; ?> ><a href="<?php echo $this->url->get("/contactus");?>"><i class="fa fa-envelope-o"></i>Contact us</a></li>
+                    <?php } ?>
+                    <?php if(Role::checkiMenuItem($role_function,"user")) { ?>
+                        <li <?php echo ($this->dispatcher->getControllerName() === "user")?$menu_active:""; ?> ><a href="<?php echo $this->url->get("/user");?>"><i class="fa fa-user"></i>User</a></li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+        <!-- /sidebar menu -->
+    </div>
+</div>

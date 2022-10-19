@@ -1,0 +1,55 @@
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="type-title">Government Fee</h3>
+    </div>
+</div>
+<?php if (isset($msg_result['status'])) { ?>
+    <div class="clearfix"></div>
+    <div class="alert alert-<?php echo $msg_result['status'] ?> alert-dismissible fade in" role="alert">
+        <?php echo $msg_result['msg']; ?>
+    </div>
+<?php } ?>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="row">
+                <form name="read_form" id="read_form" method="POST"  >
+                    <div class="col-md-1">
+                        <h2>Visa Type</h2>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" name="slcVisaType" id="slcVisaType">
+                            <?= $select_visa_type ?>
+                        </select>
+                    </div>
+                </form>
+                <div class="ln_solid"></div>
+            </div>
+            <div class="row">
+                <form name="edit_form" id="edit_form" action=""
+                      data-parsley-validate class="form-horizontal form-label-left" method="post">
+                      <?= $html_country ?>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button name="sbmFee" type="submit" class="btn btn-success">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#slcVisaType").change(function(){
+            var visa_type_id = $("#slcVisaType option:selected").val();
+            window.location.href = '/governmentfee?slcVisaType='+visa_type_id;
+        });
+    });
+</script>
